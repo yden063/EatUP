@@ -237,7 +237,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void startProfileActivity(){
         UserHelper.updateIsOnline(true, getCurrentUser().getUid());
-        Intent intent = new Intent(this, EmtyActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

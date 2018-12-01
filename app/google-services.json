@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "942930041201-d7n8j2bcgccaug7fnqoqrodo26iti1bp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hfad.eatup",
+            "certificate_hash": "e7881b77bb4f3ecd0c16a642c4f45d64a34bd852"
+          }
+        },
+        {
           "client_id": "942930041201-89hqf5hsno3u6lcro1nqnf92maeeidbe.apps.googleusercontent.com",
           "client_type": 3
         }
