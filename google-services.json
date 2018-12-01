@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "942930041201",
+    "firebase_url": "https://eatup-4eabe.firebaseio.com",
+    "project_id": "eatup-4eabe",
+    "storage_bucket": "eatup-4eabe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942930041201:android:49695ee2e8ddf0a1",
+        "android_client_info": {
+          "package_name": "com.hfad.eatup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942930041201-avglrnk6j56d7sqf8h43p1lduan1ulfn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hfad.eatup",
+            "certificate_hash": "f5ff665e793165820f734db6c31a906d97dc8b00"
+          }
+        },
+        {
+          "client_id": "942930041201-89hqf5hsno3u6lcro1nqnf92maeeidbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNmUkeQuJwyG8hAnyVEaxlCHmrQzzv5HM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942930041201-89hqf5hsno3u6lcro1nqnf92maeeidbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
