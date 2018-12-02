@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.hfad.eatup"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -42,5 +42,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
     implementation 'com.google.firebase:firebase-core:16.0.1'
+
 }
 apply plugin: 'com.google.gms.google-services'
