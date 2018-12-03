@@ -3,10 +3,28 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.hfad.eatup.Model.User;
+import com.hfad.eatup.api.UserHelper;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -27,7 +45,29 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    @BindView(R.id.editName)
+    EditText editName;
+
+    @BindView(R.id.editEmail)
+    TextView editEmail;
+
+    @BindView(R.id.editJob)
+    EditText editJob;
+
+    @BindView(R.id.foodPreferencesText)
+    EditText foodPreferencesText;
+
+    @BindView(R.id.preferedTopicsText)
+    EditText preferedTopicsText;
+
     private OnFragmentInteractionListener mListener;
+
+    //FOR DATA
+
+    // Creating identifier to identify REST REQUEST (Update username)
+    private static final int UPDATE_USERNAME = 30;
+    private static final int UPDATE_JOB = 40;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -64,7 +104,12 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        ButterKnife.bind(this, view);
+
+        this.updateUIWhenCreating();
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +136,27 @@ public class ProfileFragment extends Fragment {
         mListener = null;
     }
 
+    private void updateUIWhenCreating(){
+        if (this.getCurrentUser() != null){
+
+            //Get email & username from Firebase
+            String email = TextUtils.isEmpty(this.getCurrentUser().getEmail()) ? getString(R.string.info_no_email_found) : this.getCurrentUser().getEmail();
+            editEmail.setText(email);
+
+            // 7 - Get additional data from Firestore (champRecherche & Username)
+            UserHelper.getUser(this.getCurrentUser().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User currentUser = documentSnapshot.toObject(User.class);
+                    String username = TextUtils.isEmpty(currentUser.getUsername()) ? getString(R.string.info_no_username_found) : currentUser.getUsername();
+                    editName.setText(username);
+
+                }
+            });
+
+
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -104,5 +170,37 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @OnClick(R.id.saveBtn)
+    public void onClickSaveBtn(){this.updateInfoInFirebase();}
+
+    private void updateInfoInFirebase(){
+
+        String username = this.editName.getText().toString();
+        String job = this.editJob.getText().toString();
+
+        if (this.getCurrentUser() != null){
+            if (!username.isEmpty() &&  !username.equals(getString(R.string.info_no_username_found))){
+                UserHelper.updateUsername(username, this.getCurrentUser().getUid());
+            }
+
+            //UserHelper.updateChampRecherche(champRecherche,this.getCurrentUser().getUid()).addOnFailureListener(this.onFailureListener()).addOnSuccessListener(this.updateUIAfterRESTRequestsCompleted(UPDATE_CHAMP_RECHERCHE));
+            UserHelper.updateJob(job,this.getCurrentUser().getUid());
+
+        }
+
+
+    }
+
+    public FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
+
+    protected OnFailureListener onFailureListener(){
+        return new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
+            }
+        };
     }
 }
