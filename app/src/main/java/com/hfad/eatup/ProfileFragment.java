@@ -185,6 +185,8 @@ public class ProfileFragment extends Fragment {
 
         String username = this.editName.getText().toString();
         String job = this.editJob.getText().toString();
+        String topics = this.preferedTopicsText.getText().toString();
+        String food = this.foodPreferencesText.getText().toString();
 
         if (this.getCurrentUser() != null){
             if (!username.isEmpty() &&  !username.equals(getString(R.string.info_no_username_found))){
@@ -193,6 +195,8 @@ public class ProfileFragment extends Fragment {
 
             //UserHelper.updateChampRecherche(champRecherche,this.getCurrentUser().getUid()).addOnFailureListener(this.onFailureListener()).addOnSuccessListener(this.updateUIAfterRESTRequestsCompleted(UPDATE_CHAMP_RECHERCHE));
             UserHelper.updateJob(job,this.getCurrentUser().getUid());
+            UserHelper.updateFood(food,this.getCurrentUser().getUid());
+            UserHelper.updateTopics(topics,this.getCurrentUser().getUid());
 
         }
 

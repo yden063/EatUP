@@ -49,6 +49,14 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).update("isOnline",online);
     }
 
+    public static Task<Void> updateTopics(String topics, String uid) {
+        return UserHelper.getUsersCollection().document(uid).update("topics", topics);
+    }
+
+    public static Task<Void> updateFood(String food, String uid) {
+        return UserHelper.getUsersCollection().document(uid).update("food", food);
+    }
+
     // --- DELETE ---
 
     public static Task<Void> deleteUser(String uid) {
