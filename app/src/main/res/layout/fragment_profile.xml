@@ -10,7 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/textView2"
@@ -29,14 +31,14 @@
 
             <TextView
                 android:id="@+id/emailText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Email account " />
 
             <TextView
                 android:id="@+id/editEmail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
@@ -53,14 +55,14 @@
 
             <TextView
                 android:id="@+id/nameText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Username" />
 
             <EditText
                 android:id="@+id/editName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
@@ -77,14 +79,14 @@
 
             <TextView
                 android:id="@+id/jobText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="Job" />
 
             <EditText
                 android:id="@+id/editJob"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
