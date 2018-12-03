@@ -20,10 +20,11 @@ public class User {
     private int rating;
     private int nbratings;
     private List<Event> createdEvent,partipatingEvent;
+    private String phone;
 
     public User() { }
 
-    public User(String uid, String username, @Nullable String urlPicture, GeoPoint localisation) {
+    public User(String uid, String username, @Nullable String urlPicture, GeoPoint localisation, String phone) {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
@@ -31,6 +32,7 @@ public class User {
         this.isOnline = false;
         createdEvent = new ArrayList<Event>();
         partipatingEvent = new ArrayList<Event>();
+        this.phone = phone;
     }
 
     public void rateUser(int mark){
