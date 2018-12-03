@@ -16,7 +16,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_weight="0.2"
             android:text="Create an event"
             android:textAlignment="center"
             android:textSize="24sp" />
@@ -25,66 +25,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="0.2"
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Event name" />
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Date" />
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Starting at" />
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Address" />
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="City" />
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Description" />
 
                 <TextView
-                    style="@style/labels"
                     android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                    style="@style/labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Max participants" />
@@ -99,7 +101,7 @@
 
                 <EditText
                     android:id="@+id/eventNameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -107,7 +109,7 @@
 
                 <EditText
                     android:id="@+id/eventDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -115,7 +117,7 @@
 
                 <EditText
                     android:id="@+id/eventTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -123,7 +125,7 @@
 
                 <EditText
                     android:id="@+id/eventAddressText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -131,7 +133,7 @@
 
                 <EditText
                     android:id="@+id/eventCityText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -139,7 +141,7 @@
 
                 <EditText
                     android:id="@+id/eventDescriptionText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
@@ -147,7 +149,7 @@
 
                 <EditText
                     android:id="@+id/eventMaxParticipants"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"

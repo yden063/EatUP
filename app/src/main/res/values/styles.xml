@@ -59,6 +59,6 @@
 
     <style name="labels" parent="TextAppearance.AppCompat">
         <item name="android:textAlignment">center</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">bottom</item>
     </style>
 </resources>
