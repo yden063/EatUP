@@ -23,8 +23,6 @@ public class EventHelper {
         Event eventToCreate = new Event(title);
 
     return EventHelper.getEventsCollection()
-            .document(title)
-            .collection(COLLECTION_NAME)
             .add(eventToCreate);
     }
 }
