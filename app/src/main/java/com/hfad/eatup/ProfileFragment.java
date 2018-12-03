@@ -200,6 +200,8 @@ public class ProfileFragment extends Fragment {
 
         }
 
+        Toast.makeText(getActivity(), getString(R.string.succesfull_save), Toast.LENGTH_LONG).show();
+
 
     }
 
