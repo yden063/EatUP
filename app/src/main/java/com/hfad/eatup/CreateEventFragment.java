@@ -3,24 +3,35 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.Model.User;
 import com.hfad.eatup.api.EventHelper;
 import com.hfad.eatup.api.UserHelper;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -43,6 +54,9 @@ public class CreateEventFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private User user;
+
+    @BindView(R.id.eventNameText)
+    EditText eventName;
 
     private OnFragmentInteractionListener mListener;
 
@@ -129,10 +143,18 @@ public class CreateEventFragment extends Fragment {
 
     @OnClick(R.id.eventCreateBtn)
     public void createEvent() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        CollectionReference users = FirebaseFirestore.getInstance().collection("users");
 
+//        CollectionReference events = FirebaseFirestore.getInstance().collection("events");
+//
+//        Map<String, Object> data1 = new HashMap<>();
+//        data1.put("city", "San Francisco");
+//
+//        Event event = new Event("something to eat");
+//
+//        events.document().set(event);
 
-        //EventHelper.createEvent("test");
+        EventHelper.createEvent("test");
 
 
     }

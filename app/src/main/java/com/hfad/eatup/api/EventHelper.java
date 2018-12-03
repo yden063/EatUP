@@ -19,12 +19,11 @@ public class EventHelper {
     }
 
     // --- CREATE ---
-    public static Task<DocumentReference> createEvent(String title) {
+    public static Task<Void> createEvent(String title) {
         Event eventToCreate = new Event(title);
 
     return EventHelper.getEventsCollection()
             .document()
-            .collection(COLLECTION_NAME)
-            .add(eventToCreate);
+            .set(eventToCreate);
     }
 }
