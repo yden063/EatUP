@@ -249,9 +249,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             String uid = this.getCurrentUser().getUid();
             GeoPoint localisation = null;
             String job = null;
+            String food = null;
+            String topics = null;
             String phone = this.getCurrentUser().getPhoneNumber();
 
-            UserHelper.createUser(uid, username, urlPicture, localisation, phone, job).addOnFailureListener(this.onFailureListener());
+            UserHelper.createUser(uid, username, urlPicture, localisation, phone, job, topics, food).addOnFailureListener(this.onFailureListener());
 
         }
     }

@@ -21,17 +21,18 @@ public class User {
     private int nbratings;
     private List<Event> createdEvent,partipatingEvent;
     private String phone;
-    private String Job;
 
     public User() { }
 
-    public User(String uid, String username, @Nullable String urlPicture, GeoPoint localisation, String phone, String job ) {
+    public User(String uid, String username, @Nullable String urlPicture, GeoPoint localisation, String phone, String job, String topics, String food ) {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
         this.localisation = localisation ;
         this.isOnline = false;
         this.job = job;
+        this.topics = topics;
+        this.food = food;
         createdEvent = new ArrayList<Event>();
         partipatingEvent = new ArrayList<Event>();
         this.phone = phone;
