@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Fragment fragmentHome;
+    private Fragment fragmentCreateEvent;
     private Fragment fragmentProfil;
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_PROFIL = 1;
@@ -123,11 +124,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    private void startTransactionFragment(Fragment fragment){
+    public void startTransactionFragment(Fragment fragment){
         if (!fragment.isVisible()){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_main_frame_layout, fragment).commit();
         }
+    }
+
+    public void showCreateEventFragment(){
+
+        if (this.fragmentCreateEvent == null) this.fragmentCreateEvent = CreateEventFragment.newInstance(null,null);
+        this.startTransactionFragment(this.fragmentCreateEvent);
     }
 
     private void showFirstFragment(){

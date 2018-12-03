@@ -1,5 +1,7 @@
 package com.hfad.eatup;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -27,6 +33,9 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    @BindView(R.id.createEventBtn)
+    Button createEventVtn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -90,6 +99,13 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @OnClick(R.id.createEventBtn)
+    public void onClickCreateEvent(){
+
+        ((MainActivity)getActivity()).showCreateEventFragment();
+
     }
 
     /**
