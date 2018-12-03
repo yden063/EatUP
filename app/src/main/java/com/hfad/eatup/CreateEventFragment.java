@@ -3,11 +3,26 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.hfad.eatup.Model.User;
+import com.hfad.eatup.api.EventHelper;
+import com.hfad.eatup.api.UserHelper;
+
+import java.time.Instant;
+import java.util.Date;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -27,6 +42,7 @@ public class CreateEventFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private User user;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +81,11 @@ public class CreateEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_event, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,12 +98,12 @@ public class CreateEventFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
@@ -105,5 +125,15 @@ public class CreateEventFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @OnClick(R.id.eventCreateBtn)
+    public void createEvent() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        //EventHelper.createEvent("test");
+
+
     }
 }
