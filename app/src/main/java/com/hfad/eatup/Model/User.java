@@ -28,7 +28,7 @@ public class User {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
-        this.localisation =localisation ;
+        this.localisation = localisation ;
         this.isOnline = false;
         createdEvent = new ArrayList<Event>();
         partipatingEvent = new ArrayList<Event>();
@@ -46,6 +46,25 @@ public class User {
 
     public void joinEvent(Event event){
         partipatingEvent.add(event);
+    }
+
+    public Event getNextEvent(){
+        List<Event> listNextEvents = new ArrayList<>();
+        listNextEvents.addAll(createdEvent);
+        listNextEvents.addAll(partipatingEvent);
+        Event nextEvent=null;
+
+        if (listNextEvents.size()!=0){
+            nextEvent=listNextEvents.get(0);
+
+            for (int i=0;i<listNextEvents.size();i++) {
+
+                if(listNextEvents.get(i).getDate().before(nextEvent.getDate())){
+                    nextEvent=listNextEvents.get(i);
+                }
+            }
+        }
+        return nextEvent;
     }
 
     // --- GETTERS ---

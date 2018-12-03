@@ -22,10 +22,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private Fragment fragmentHome;
     private Fragment fragmentProfil;
-    private Fragment fragmentChat;
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_PROFIL = 1;
-    private static final int FRAGMENT_CHAT = 2;
     private DrawerLayout drawer;
 
     private ImageView imageViewProfile;

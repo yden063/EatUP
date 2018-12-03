@@ -34,6 +34,12 @@ public class Event {
         }
     }
 
+    public void delParticipant(User participant){
+        if(listppl.contains(participant)){
+            listppl.remove(participant);
+        }
+    }
+
     public String getTitle() {
         return title;
     }
