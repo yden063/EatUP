@@ -140,5 +140,7 @@
 
     <string name="action_example">Example action</string>
 
+    <string name="succesfull_save"> Successfull save</string>
+
 
 </resources>
