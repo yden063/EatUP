@@ -3,6 +3,9 @@ import android.support.annotation.Nullable;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 
     private String uid;
@@ -11,6 +14,12 @@ public class User {
     private Boolean isOnline;
     @Nullable
     private String urlPicture;
+    private String job;
+    private String food;
+    private String topics;
+    private int rating;
+    private int nbratings;
+    private List<Event> createdEvent,partipatingEvent;
 
     public User() { }
 
@@ -20,7 +29,21 @@ public class User {
         this.urlPicture = urlPicture;
         this.localisation =localisation ;
         this.isOnline = false;
+        createdEvent = new ArrayList<Event>();
+        partipatingEvent = new ArrayList<Event>();
+    }
 
+    public void rateUser(int mark){
+        rating = (rating*nbratings+mark)/nbratings+1;
+        nbratings++;
+    }
+
+    public void createEvent(Event event){
+        createdEvent.add(event);
+    }
+
+    public void joinEvent(Event event){
+        partipatingEvent.add(event);
     }
 
     // --- GETTERS ---
@@ -32,6 +55,26 @@ public class User {
     }
     public Boolean getIsOnline(){return isOnline;}
 
+    public String getJob() {
+        return job;
+    }
+
+    public String getFood() {
+        return food;
+    }
+
+    public String getTopics() {
+        return topics;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public int getNbratings() {
+        return nbratings;
+    }
+
     // --- SETTERS ---
     public void setUsername(String username) { this.username = username; }
     public void setUid(String uid) { this.uid = uid; }
@@ -40,4 +83,16 @@ public class User {
         this.localisation = localisation;
     }
     public void setIsOnlinee(Boolean isOnline) { this.isOnline = isOnline; }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
+    }
+
+    public void setTopics(String topics) {
+        this.topics = topics;
+    }
 }
