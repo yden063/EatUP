@@ -14,9 +14,6 @@ public class Event {
     private User creator;
     private List<User> listppl;
 
-    public Event(String title) {
-        this.title = title;
-    }
 
     public Event( String title, String address, String city, Date date, int maxppl, String description, User creator) {
         this.title = title;

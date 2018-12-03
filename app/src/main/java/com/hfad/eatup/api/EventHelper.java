@@ -19,8 +19,8 @@ public class EventHelper {
     }
 
     // --- CREATE ---
-    public static Task<Void> createEvent(String title) {
-        Event eventToCreate = new Event(title);
+    public static Task<Void> createEvent(String title, String address, String city, Date date, int maxppl, String description, User creator) {
+        Event eventToCreate = new Event(title, address, city, date, maxppl, description, creator);
 
     return EventHelper.getEventsCollection()
             .document()
