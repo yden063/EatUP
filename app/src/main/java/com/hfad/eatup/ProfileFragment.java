@@ -148,7 +148,9 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     User currentUser = documentSnapshot.toObject(User.class);
+                    String job = currentUser.getJob();
                     String username = TextUtils.isEmpty(currentUser.getUsername()) ? getString(R.string.info_no_username_found) : currentUser.getUsername();
+                    editJob.setText(job);
                     editName.setText(username);
 
                 }
