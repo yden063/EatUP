@@ -97,4 +97,5 @@ public class User {
     public void setTopics(String topics) {
         this.topics = topics;
     }
+
 }

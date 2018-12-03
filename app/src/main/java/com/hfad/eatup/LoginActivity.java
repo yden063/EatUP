@@ -37,6 +37,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // View
@@ -246,8 +248,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             String urlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
             String uid = this.getCurrentUser().getUid();
             GeoPoint localisation = null;
+            String phone = this.getCurrentUser().getPhoneNumber();
 
-            UserHelper.createUser(uid, username, urlPicture, localisation).addOnFailureListener(this.onFailureListener());
+            UserHelper.createUser(uid, username, urlPicture, localisation, phone).addOnFailureListener(this.onFailureListener());
 
         }
     }
