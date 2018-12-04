@@ -33,6 +33,6 @@ public class EventHelper {
     public static Query getAllYourEvent(String uid){
         return EventHelper.getEventsCollection()
                 .whereEqualTo("uidCreator",uid)
-                .orderBy("dateCreated");
+                .orderBy("date");
     }
 }

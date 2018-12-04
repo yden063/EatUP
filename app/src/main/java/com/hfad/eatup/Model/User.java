@@ -120,4 +120,11 @@ public class User {
         this.topics = topics;
     }
 
+    public void setCreatedEvent(List<Event> createdEvent) {
+        this.createdEvent = createdEvent;
+    }
+
+    public void setPartipatingEvent(List<Event> partipatingEvent) {
+        this.partipatingEvent = partipatingEvent;
+    }
 }

@@ -26,6 +26,7 @@ public class Event {
 //        this.creator = creator;
 //        listppl = new ArrayList<User>();
 //    }
+    public Event(){};
 
     public Event( String title, String address, String city, Date date, int maxppl, String description, String uidCreator) {
         this.title = title;
@@ -89,5 +90,41 @@ public class Event {
 
     public String getUidCreator() {
         return uidCreator;
+    }
+
+    public void setUidCreator(String uidCreator) {
+        this.uidCreator = uidCreator;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setMaxppl(int maxppl) {
+        this.maxppl = maxppl;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public void setListppl(List<User> listppl) {
+        this.listppl = listppl;
     }
 }

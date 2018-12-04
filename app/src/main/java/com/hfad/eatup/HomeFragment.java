@@ -31,8 +31,6 @@ import com.hfad.eatup.api.UserHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -103,8 +101,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView text = view.findViewById(R.id.nextEventText);
-        //getAllYourEvent();
 
+        getAllYourEvent();
         text.setText(nextEvtText());
 
         ButterKnife.bind(this, view);
@@ -143,7 +141,6 @@ public class HomeFragment extends Fragment {
     public void onClickCreateEvent(){
         //Toast.makeText(getActivity(), getString(R.string.succesfull_save), Toast.LENGTH_LONG).show();
         ((MainActivity)getActivity()).showCreateEventFragment();
-
     }
 
     /**
@@ -170,9 +167,12 @@ public class HomeFragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
 
-                events = snapshot.toObjects(Event.class);
-                Log.i("salut",events.toString());
+                try {
+                    events = snapshot.toObjects(Event.class);
+                    Log.i("salut",events.toString());
+                }catch(NullPointerException exception){
 
+                }
 
             }
         });
