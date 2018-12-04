@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +25,16 @@ import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
 
 import java.util.List;
+
+import com.hfad.eatup.Model.Event;
+import com.hfad.eatup.api.UserHelper;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,10 +102,18 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        TextView text = view.findViewById(R.id.nextEventText);
+        //getAllYourEvent();
+
+        text.setText(nextEvtText());
+
         ButterKnife.bind(this, view);
-        getAllYourEvent();
+
         return view;
     }
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -122,7 +141,7 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.createEventBtn)
     public void onClickCreateEvent(){
-        Toast.makeText(getActivity(), getString(R.string.succesfull_save), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), getString(R.string.succesfull_save), Toast.LENGTH_LONG).show();
         ((MainActivity)getActivity()).showCreateEventFragment();
 
     }
@@ -161,4 +180,16 @@ public class HomeFragment extends Fragment {
 
     protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
 
+    private String nextEvtText(){
+        String nextEvent = "No new event planned \n:(";
+
+        if (events!=null){
+            Event e = events.get(0);
+            DateFormat dateFormat = new SimpleDateFormat("dd, MMM, HH:mm",Locale.CANADA);
+
+            nextEvent = ""+e.getTitle()+"\nIn "+e.getAddress()+"\n"+e.getCity()+"\n"+"The "+dateFormat.format(e.getDate());
+        }
+
+        return nextEvent;
+    }
 }
