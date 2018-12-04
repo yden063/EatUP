@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.Model.User;
 
@@ -27,5 +28,11 @@ public class EventHelper {
     return EventHelper.getEventsCollection()
             .document()
             .set(eventToCreate);
+    }
+
+    public static Query getAllYourEvent(String uid){
+        return EventHelper.getEventsCollection()
+                .whereEqualTo("uidCreator",uid)
+                .orderBy("dateCreated");
     }
 }
