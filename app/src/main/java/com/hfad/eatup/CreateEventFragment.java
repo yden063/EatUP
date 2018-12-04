@@ -3,6 +3,7 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,18 +12,29 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.Model.User;
 import com.hfad.eatup.api.EventHelper;
 import com.hfad.eatup.api.UserHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +59,27 @@ public class CreateEventFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private User currentUser;
+
+    @BindView(R.id.eventNameText)
+    EditText eventName;
+
+    @BindView(R.id.eventDate)
+    EditText eventDate;
+
+    @BindView(R.id.eventTime)
+    EditText eventTime;
+
+    @BindView(R.id.eventAddressText)
+    EditText eventAddressText;
+
+    @BindView(R.id.eventCityText)
+    EditText eventCityText;
+
+    @BindView(R.id.eventMaxParticipants)
+    EditText eventMaxParticipants;
+
+    @BindView(R.id.eventDescriptionText)
+    EditText eventDescriptionText;
 
     private OnFragmentInteractionListener mListener;
 
@@ -88,6 +121,8 @@ public class CreateEventFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_create_event, container, false);
         ButterKnife.bind(this, view);
+
+        this.getCurrentUserFromFirestore();
 
         return view;
     }
@@ -133,9 +168,24 @@ public class CreateEventFragment extends Fragment {
 
     @OnClick(R.id.eventCreateBtn)
     public void createEvent() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String title = this.eventName.getText().toString();
+        String dateString = this.eventDate.getText().toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateFinale = null;
+
+        try {
+            dateFinale = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String address = this.eventAddressText.getText().toString();
+        String city = this.eventCityText.getText().toString();
+        String description = this.eventDescriptionText.getText().toString();
+        int maxPeople = 2; // a changer
 
 
+        EventHelper.createEvent(title, address, city, dateFinale, maxPeople, description, this.currentUser.getUid());
 
     }
 

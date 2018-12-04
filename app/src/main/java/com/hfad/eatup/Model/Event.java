@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Event {
+    private String uidCreator;
     private String title;
     private String address;
     private String city;
@@ -15,16 +16,29 @@ public class Event {
     private List<User> listppl;
 
 
-    public Event( String title, String address, String city, Date date, int maxppl, String description, User creator) {
+//    public Event( String title, String address, String city, Date date, int maxppl, String description, User creator) {
+//        this.title = title;
+//        this.address = address;
+//        this.city = city;
+//        this.date = date;
+//        this.maxppl = maxppl;
+//        this.description = description;
+//        this.creator = creator;
+//        listppl = new ArrayList<User>();
+//    }
+
+    public Event( String title, String address, String city, Date date, int maxppl, String description, String uidCreator) {
         this.title = title;
         this.address = address;
         this.city = city;
         this.date = date;
         this.maxppl = maxppl;
         this.description = description;
-        this.creator = creator;
+        this.uidCreator = uidCreator;
         listppl = new ArrayList<User>();
     }
+
+
 
     public boolean addParticipant(User participant){
         if (listppl.size()==maxppl) {
@@ -71,5 +85,9 @@ public class Event {
 
     public List<User> getListppl() {
         return listppl;
+    }
+
+    public String getUidCreator() {
+        return uidCreator;
     }
 }
