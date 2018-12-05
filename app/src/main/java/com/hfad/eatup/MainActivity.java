@@ -101,12 +101,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void showHomeFragment(){
-        if (this.fragmentHome == null) this.fragmentHome = HomeFragment.newInstance(null,null);
+        /*if (this.fragmentHome == null)*/ this.fragmentHome = HomeFragment.newInstance(null,null);
         this.startTransactionFragment(this.fragmentHome);
     }
 
     private void showProfilFragment(){
-        if (this.fragmentProfil == null) this.fragmentProfil = ProfileFragment.newInstance(null,null);
+        /*if (this.fragmentProfil == null)*/ this.fragmentProfil = ProfileFragment.newInstance(null,null);
         this.startTransactionFragment(this.fragmentProfil);
     }
 

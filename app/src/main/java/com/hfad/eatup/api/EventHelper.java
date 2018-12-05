@@ -30,6 +30,13 @@ public class EventHelper {
             .set(eventToCreate);
     }
 
+    public static Query getAllTheirEvent(String uid){
+        return EventHelper.getEventsCollection()
+                .whereGreaterThan("uidCreator",uid)
+                .whereLessThan("uidCreator",uid)
+                .orderBy("date");
+    }
+
     public static Query getAllYourEvent(String uid){
         return EventHelper.getEventsCollection()
                 .whereEqualTo("uidCreator",uid)

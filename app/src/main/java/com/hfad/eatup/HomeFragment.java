@@ -97,10 +97,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        TextView text = view.findViewById(R.id.nextEventText);
+
         getAllYourEvent();
 
-        text.setText(nextEvtText());
+
 
         ButterKnife.bind(this, view);
 
@@ -170,11 +170,12 @@ public class HomeFragment extends Fragment {
 
         EventHelper.getAllYourEvent(uid).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
+            public void onEvent(QuerySnapshot snapshot,
+                                 FirebaseFirestoreException e) {
 
                 try {
                     events = snapshot.toObjects(Event.class);
+                    nextEventText.setText(nextEvtText());
                     for (Event ev:events) {
                         Log.i("querry event",ev.getTitle());
                     }
@@ -192,7 +193,7 @@ public class HomeFragment extends Fragment {
     private String nextEvtText(){
         String nextEvent = "No new event planned \n:(";
 
-        if (events!=null){
+        if (events!=null&& events.size()!=0){
             Event e = events.get(0);
             DateFormat dateFormat = new SimpleDateFormat("dd, MMM, HH:mm",Locale.CANADA);
 
