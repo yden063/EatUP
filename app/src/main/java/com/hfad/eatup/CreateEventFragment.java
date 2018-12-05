@@ -3,21 +3,42 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.Model.User;
 import com.hfad.eatup.api.EventHelper;
 import com.hfad.eatup.api.UserHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +63,7 @@ public class CreateEventFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private User currentUser;
+    private boolean enableCreateBtn;
 
     @BindView(R.id.eventNameText)
     EditText eventName;
@@ -63,6 +85,9 @@ public class CreateEventFragment extends Fragment {
 
     @BindView(R.id.eventDescriptionText)
     EditText eventDescriptionText;
+
+    @BindView(R.id.eventCreateBtn)
+    Button eventCreateBtn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -106,8 +131,150 @@ public class CreateEventFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         this.getCurrentUserFromFirestore();
+        eventCreateBtn.setEnabled(false);
+        enableCreateBtn = false;
+
+        createListenerForEachTextView();
 
         return view;
+    }
+
+    private void createListenerForEachTextView() {
+        // EventName
+        eventName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+        eventDate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+        eventTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+        eventAddressText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+        eventCityText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+        eventMaxParticipants.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+        eventDescriptionText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkAllTextView();
+                eventCreateBtn.setEnabled(enableCreateBtn);
+            }
+        });
+
+
+    }
+
+    private void checkAllTextView() {
+        if (!eventName.getText().toString().isEmpty() &&
+                !eventDate.getText().toString().isEmpty() &&
+                !eventTime.getText().toString().isEmpty() &&
+                !eventAddressText.getText().toString().isEmpty() &&
+                !eventCityText.getText().toString().isEmpty() &&
+                !eventMaxParticipants.getText().toString().isEmpty() &&
+                !eventDescriptionText.getText().toString().isEmpty()) {
+            enableCreateBtn = true;
+        } else
+            enableCreateBtn = false;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -151,6 +318,7 @@ public class CreateEventFragment extends Fragment {
 
     @OnClick(R.id.eventCreateBtn)
     public void createEvent() {
+
         String title = this.eventName.getText().toString();
         String dateString = this.eventDate.getText().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -165,7 +333,7 @@ public class CreateEventFragment extends Fragment {
         String address = this.eventAddressText.getText().toString();
         String city = this.eventCityText.getText().toString();
         String description = this.eventDescriptionText.getText().toString();
-        int maxPeople = 2; // a changer
+        int maxPeople = 2; // à changer
 
 
         EventHelper.createEvent(title, address, city, dateFinale, maxPeople, description, this.currentUser.getUid());
