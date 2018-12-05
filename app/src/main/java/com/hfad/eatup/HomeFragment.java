@@ -60,7 +60,13 @@ public class HomeFragment extends Fragment {
     private List<Event> events;
 
     @BindView(R.id.createEventBtn)
-    Button createEventVtn;
+    Button createEventbtn;
+
+    @BindView(R.id.searchEventBtn)
+    Button searchEventBtn;
+
+    @BindView(R.id.nextEventText)
+    TextView nextEventText;
 
     private OnFragmentInteractionListener mListener;
 
@@ -143,6 +149,15 @@ public class HomeFragment extends Fragment {
         ((MainActivity)getActivity()).showCreateEventFragment();
     }
 
+    @OnClick(R.id.searchEventBtn)
+    public void onClickSearchEvent(){
+        ((MainActivity)getActivity()).showSearchEventFragment();
+    }
+
+    @OnClick(R.id.nextEventText)
+    public void onClickNextEvent(){
+        ((MainActivity)getActivity()).showListEventFragment();
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

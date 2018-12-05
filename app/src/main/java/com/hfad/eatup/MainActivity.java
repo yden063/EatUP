@@ -30,6 +30,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView navigationView;
     private Fragment fragmentHome;
     private Fragment fragmentCreateEvent;
+    private Fragment fragmentSearchEvent;
+    private Fragment fragmentListEvent;
     private Fragment fragmentProfil;
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_PROFIL = 1;
@@ -136,6 +138,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (this.fragmentCreateEvent == null) this.fragmentCreateEvent = CreateEventFragment.newInstance(null,null);
         this.startTransactionFragment(this.fragmentCreateEvent);
     }
+
+    public void showSearchEventFragment(){
+
+        if (this.fragmentSearchEvent == null) this.fragmentSearchEvent = SearchEventFragment.newInstance(null,null);
+        this.startTransactionFragment(this.fragmentSearchEvent);
+    }
+
+    public void showListEventFragment(){
+
+        if (this.fragmentListEvent == null) this.fragmentListEvent = EventListFragment.newInstance(null,null);
+        this.startTransactionFragment(this.fragmentListEvent);
+    }
+
 
     private void showFirstFragment(){
         Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
