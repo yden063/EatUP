@@ -1,11 +1,8 @@
 package com.hfad.eatup;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,11 +19,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
-
-import java.util.List;
-
-import com.hfad.eatup.Model.Event;
-import com.hfad.eatup.api.UserHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -107,8 +98,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView text = view.findViewById(R.id.nextEventText);
-
         getAllYourEvent();
+
         text.setText(nextEvtText());
 
         ButterKnife.bind(this, view);
@@ -184,7 +175,10 @@ public class HomeFragment extends Fragment {
 
                 try {
                     events = snapshot.toObjects(Event.class);
-                    Log.i("salut",events.toString());
+                    for (Event ev:events) {
+                        Log.i("querry event",ev.getTitle());
+                    }
+                    Log.i("Querry events",events.toString());
                 }catch(NullPointerException exception){
 
                 }
