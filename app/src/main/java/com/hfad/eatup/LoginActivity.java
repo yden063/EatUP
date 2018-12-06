@@ -13,6 +13,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +49,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         // View
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
@@ -91,7 +96,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            startProfileActivity();
+            startMainActivity();
         }
     }
 
@@ -109,7 +114,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 createUserInFirestore(username);
                                 user = mAuth.getCurrentUser();
-                                startProfileActivity();
+                                startMainActivity();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -137,7 +142,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startProfileActivity();
+                            startMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -243,7 +248,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.emailSignUpForm).setVisibility(View.GONE);
     }
 
-    private void startProfileActivity(){
+    private void startMainActivity(){
         UserHelper.updateIsOnline(true, getCurrentUser().getUid());
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -282,7 +287,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startProfileActivity();
+                            startMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
