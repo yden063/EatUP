@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -18,6 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,8 +44,10 @@ public class SearchEventFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<Event> events = new ArrayList<Event>();
 
     private OnFragmentInteractionListener mListener;
+    private FirestoreRecyclerAdapter adapter;
 
     @BindView(R.id.searchBtn)
     Button searchBtn;
@@ -120,12 +124,16 @@ public class SearchEventFragment extends Fragment {
         mListener = null;
     }
 
+
+
     @OnClick(R.id.searchBtn)
     public void onClickSearchBtn(){
         String city = this.eventCityTxt.getText().toString();
         String date = this.eventDateTxt.getText().toString();
         Query query = EventHelper.querryBuilder();
         Log.i("Search with param:","City: "+city+" Date: "+date);
+        events.clear();
+
 
         if(!city.isEmpty()){
             query = EventHelper.getEventByCity(query,city);
@@ -141,7 +149,7 @@ public class SearchEventFragment extends Fragment {
                                 FirebaseFirestoreException e) {
 
                 try {
-                    List<Event> events = snapshot.toObjects(Event.class);
+                    events = snapshot.toObjects(Event.class);
                     for (Event ev:events) {
                         Log.i("Querry search event",ev.getTitle());
                     }

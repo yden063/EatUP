@@ -3,8 +3,6 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,17 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.Query;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -153,7 +146,7 @@ public class EventListFragment extends Fragment implements ListEventAdapter.List
     private void getEventList() {
 
         String uid = getCurrentUser().getUid();
-        Query query = EventHelper.getAllYourEvent(uid);
+        Query query = EventHelper.getAllParticipatingEvent(EventHelper.querryBuilder(),uid);
 
         FirestoreRecyclerOptions<Event> event = new FirestoreRecyclerOptions.Builder<Event>()
                 .setQuery(query, Event.class)

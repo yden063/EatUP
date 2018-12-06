@@ -43,26 +43,14 @@ public class EventHelper {
             .set(eventToCreate);
     }
 
-    public static Query getAllTheirEvent(String uid){
-        return EventHelper.getEventsCollection()
-                .whereGreaterThan("uidCreator",uid)
-                .whereLessThan("uidCreator",uid)
-                .orderBy("date");
+    public static Query getAllParticipatingEvent(Query query, String uid){
+        return query.whereEqualTo("uidCreator",uid);
+                //.whereArrayContains("listppl",uid);
     }
 
-    public static Query getAllYourEvent(String uid){
-        return EventHelper.getEventsCollection()
-                .whereEqualTo("uidCreator",uid)
-                .orderBy("date");
+    public static Query getIntNextEvent(Query query, int limit){
+        return query.limit(limit);
     }
-
-    public static Query getYourNextEvent(String uid){
-        return EventHelper.getEventsCollection()
-                .whereEqualTo("uidCreator",uid)
-                .orderBy("date")
-                .limit(1);
-    }
-
 
     public static Query getEventByCity(Query query, String city){
         return query.whereEqualTo("city",city);

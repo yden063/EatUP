@@ -3,29 +3,19 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
 
@@ -205,10 +195,9 @@ public class HomeFragment extends Fragment implements ListEventAdapter.Listener 
 
     public void getYourNextEvent (){
 
-
         String uid = getCurrentUser().getUid();
 
-        Query query = EventHelper.getYourNextEvent(uid);
+        Query query = EventHelper.getIntNextEvent(EventHelper.getAllParticipatingEvent(EventHelper.querryBuilder(),uid),1);
 
         FirestoreRecyclerOptions<Event> event = new FirestoreRecyclerOptions.Builder<Event>()
                 .setQuery(query, Event.class)
@@ -221,18 +210,18 @@ public class HomeFragment extends Fragment implements ListEventAdapter.Listener 
 
     protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
 
-    private String nextEvtText(List<Event> ev){
-        String nextEvent = "No new event planned \n:(";
-
-        if (ev!=null&& ev.size()!=0){
-            Event e = ev.get(0);
-            DateFormat dateFormat = new SimpleDateFormat("dd, MMM, HH:mm",Locale.CANADA);
-
-            nextEvent = ""+e.getTitle()+"\nIn "+e.getAddress()+"\n"+e.getCity()+"\n"+"The "+dateFormat.format(e.getDate());
-        }
-
-        return nextEvent;
-    }
+//    private String nextEvtText(List<Event> ev){
+//        String nextEvent = "No new event planned \n:(";
+//
+//        if (ev!=null&& ev.size()!=0){
+//            Event e = ev.get(0);
+//            DateFormat dateFormat = new SimpleDateFormat("dd, MMM, HH:mm",Locale.CANADA);
+//
+//            nextEvent = ""+e.getTitle()+"\nIn "+e.getAddress()+"\n"+e.getCity()+"\n"+"The "+dateFormat.format(e.getDate());
+//        }
+//
+//        return nextEvent;
+//    }
 
 
 }
