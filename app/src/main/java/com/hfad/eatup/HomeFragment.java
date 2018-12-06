@@ -3,19 +3,28 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
@@ -48,18 +57,23 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private List<Event> events;
-
     @BindView(R.id.createEventBtn)
     Button createEventbtn;
 
     @BindView(R.id.searchEventBtn)
     Button searchEventBtn;
 
-    @BindView(R.id.nextEventText)
-    TextView nextEventText;
+    @BindView(R.id.list_next_event)
+    RecyclerView nextEventText;
+
+    @BindView(R.id.list_next_event_progress_bar)
+    ProgressBar progressBar;
+
+    LinearLayoutManager linearLayoutManager;
+
 
     private OnFragmentInteractionListener mListener;
+    private FirestoreRecyclerAdapter adapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -97,12 +111,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        getAllYourEvent();
-
-
-
         ButterKnife.bind(this, view);
+
+        init();
+        getYourNextEvent();
 
         return view;
     }
@@ -134,6 +146,26 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        adapter.startListening();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        adapter.stopListening();
+    }
+
+    private void init(){
+        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        nextEventText.setLayoutManager(linearLayoutManager);
+    }
+
     @OnClick(R.id.createEventBtn)
     public void onClickCreateEvent(){
         //Toast.makeText(getActivity(), getString(R.string.succesfull_save), Toast.LENGTH_LONG).show();
@@ -145,10 +177,13 @@ public class HomeFragment extends Fragment {
         ((MainActivity)getActivity()).showSearchEventFragment();
     }
 
-    @OnClick(R.id.nextEventText)
+    @OnClick(R.id.click_next_event)
     public void onClickNextEvent(){
         ((MainActivity)getActivity()).showListEventFragment();
     }
+
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -164,18 +199,18 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void getAllYourEvent (){
+    public void getYourNextEvent (){
+
 
         String uid = getCurrentUser().getUid();
-
-        EventHelper.getAllYourEvent(uid).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        /*EventHelper.getAllYourEvent(uid).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot snapshot,
                                  FirebaseFirestoreException e) {
 
                 try {
-                    events = snapshot.toObjects(Event.class);
-                    nextEventText.setText(nextEvtText());
+                    List<Event> events = snapshot.toObjects(Event.class);
+                    nextEventText.setText(nextEvtText(events));
                     for (Event ev:events) {
                         Log.i("querry event",ev.getTitle());
                     }
@@ -186,15 +221,53 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        Query query = EventHelper.getAllYourEvent(uid);
+
+        FirestoreRecyclerOptions<Event> response = new FirestoreRecyclerOptions.Builder<Event>()
+                .setQuery(query, Event.class)
+                .build();
+
+        this.ListEventAdapter = new ListEventAdapter(response,Glide.with(this), this, uid);*/
+
+        Query query = EventHelper.getYourNextEvent(uid);
+
+        FirestoreRecyclerOptions<Event> event = new FirestoreRecyclerOptions.Builder<Event>()
+                .setQuery(query, Event.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Event, ListEventHolder>(event){
+
+            @NonNull
+            @Override
+            public ListEventHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.list_event_item, viewGroup, false);
+
+                return new ListEventHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull Event model) {
+                progressBar.setVisibility(View.GONE);
+                holder.textTitle.setText(model.getTitle());
+                holder.cityText.setText(model.getCity());
+                holder.adressText.setText(model.getAddress());
+            }
+        };
+
+        adapter.notifyDataSetChanged();
+        nextEventText.setAdapter(adapter);
+
     }
 
     protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
 
-    private String nextEvtText(){
+    private String nextEvtText(List<Event> ev){
         String nextEvent = "No new event planned \n:(";
 
-        if (events!=null&& events.size()!=0){
-            Event e = events.get(0);
+        if (ev!=null&& ev.size()!=0){
+            Event e = ev.get(0);
             DateFormat dateFormat = new SimpleDateFormat("dd, MMM, HH:mm",Locale.CANADA);
 
             nextEvent = ""+e.getTitle()+"\nIn "+e.getAddress()+"\n"+e.getCity()+"\n"+"The "+dateFormat.format(e.getDate());
@@ -202,4 +275,6 @@ public class HomeFragment extends Fragment {
 
         return nextEvent;
     }
+
+
 }

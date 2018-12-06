@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 import com.hfad.eatup.Model.User;
 
 public class UserHelper {
@@ -35,8 +36,6 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).get();
     }
 
-
-
     // --- UPDATE ---
 
     public static Task<Void> updateUsername(String username, String uid) {
@@ -62,6 +61,13 @@ public class UserHelper {
 
     public static Task<Void> deleteUser(String uid) {
         return UserHelper.getUsersCollection().document(uid).delete();
+    }
+
+
+    public static Query getASpecificUser(String uid){
+        return UserHelper.getUsersCollection()
+                .whereEqualTo("uid",uid)
+                .orderBy("date");
     }
 
 }

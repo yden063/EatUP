@@ -5,13 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".EventListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <ListView
-        android:id="@+id/eventListView"
-        style="@style/Widget.AppCompat.ListView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        />
+        android:padding="16dp"
+        android:background="#ffff">
+
+        <ProgressBar
+            android:id="@+id/list_event_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/eventListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#00000000"/>
+
+    </RelativeLayout>
 </FrameLayout>

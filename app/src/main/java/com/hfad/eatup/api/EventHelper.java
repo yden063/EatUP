@@ -42,4 +42,12 @@ public class EventHelper {
                 .whereEqualTo("uidCreator",uid)
                 .orderBy("date");
     }
+
+    public static Query getYourNextEvent(String uid){
+        return EventHelper.getEventsCollection()
+                .whereEqualTo("uidCreator",uid)
+                .orderBy("date")
+                .limit(1);
+    }
+
 }

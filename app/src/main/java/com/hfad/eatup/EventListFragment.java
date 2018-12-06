@@ -3,10 +3,26 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Query;
+import com.hfad.eatup.Model.Event;
+import com.hfad.eatup.api.EventHelper;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -26,6 +42,19 @@ public class EventListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String title;
+    private String city;
+    private String address;
+
+    private FirestoreRecyclerAdapter adapter;
+    @BindView(R.id.list_event_progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.eventListView)
+    RecyclerView eventListView;
+    LinearLayoutManager linearLayoutManager;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +93,28 @@ public class EventListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_list, container, false);
+        View view =  inflater.inflate(R.layout.fragment_event_list, container, false);
+
+        ButterKnife.bind(this,view);
+        init();
+
+        getEventList();
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        adapter.startListening();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        adapter.stopListening();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -72,6 +122,11 @@ public class EventListFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    private void init(){
+        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        eventListView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -91,6 +146,51 @@ public class EventListFragment extends Fragment {
         mListener = null;
     }
 
+    private void getEventList() {
+
+        String uid = getCurrentUser().getUid();
+        Query query = EventHelper.getAllYourEvent(uid);
+
+        FirestoreRecyclerOptions<Event> event = new FirestoreRecyclerOptions.Builder<Event>()
+                .setQuery(query, Event.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Event, ListEventHolder>(event){
+
+            @NonNull
+            @Override
+            public ListEventHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View view = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.list_event_item, viewGroup, false);
+
+                return new ListEventHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull Event model) {
+                progressBar.setVisibility(View.GONE);
+                holder.textTitle.setText(model.getTitle());
+                holder.cityText.setText(model.getCity());
+                holder.adressText.setText(model.getAddress());
+               /* title = model.getTitle();
+                address = model.getAddress();
+                city = model.getCity();
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Snackbar.make(eventListView, title+", "+address+" at "+city, Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                });*/
+            }
+        };
+
+        adapter.notifyDataSetChanged();
+        eventListView.setAdapter(adapter);
+
+    }
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -105,4 +205,10 @@ public class EventListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
+
+
 }
+
+
