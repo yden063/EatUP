@@ -12,21 +12,9 @@ public class Event {
     private Date date;
     private int maxppl;
     private String description;
-    private User creator;
-    private List<User> listppl;
+    private List<String> listppl;
 
-
-//    public Event( String title, String address, String city, Date date, int maxppl, String description, User creator) {
-//        this.title = title;
-//        this.address = address;
-//        this.city = city;
-//        this.date = date;
-//        this.maxppl = maxppl;
-//        this.description = description;
-//        this.creator = creator;
-//        listppl = new ArrayList<User>();
-//    }
-    public Event(){};
+    public Event(){}
 
     public Event( String title, String address, String city, Date date, int maxppl, String description, String uidCreator) {
         this.title = title;
@@ -36,24 +24,23 @@ public class Event {
         this.maxppl = maxppl;
         this.description = description;
         this.uidCreator = uidCreator;
-        listppl = new ArrayList<User>();
+        listppl = new ArrayList<>();
+        listppl.add(uidCreator);
     }
 
 
 
-    public boolean addParticipant(User participant){
+    public boolean addParticipant(String participantUid){
         if (listppl.size()==maxppl) {
             return false;
         }else{
-            listppl.add(participant);
+            listppl.add(participantUid);
             return true;
         }
     }
 
-    public void delParticipant(User participant){
-        if(listppl.contains(participant)){
-            listppl.remove(participant);
-        }
+    public void delParticipant(String participantUid){
+        listppl.remove(participantUid);
     }
 
     public String getTitle() {
@@ -80,11 +67,7 @@ public class Event {
         return description;
     }
 
-    public User getCreator() {
-        return creator;
-    }
-
-    public List<User> getListppl() {
+    public List<String> getListppl() {
         return listppl;
     }
 
@@ -120,11 +103,7 @@ public class Event {
         this.description = description;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public void setListppl(List<User> listppl) {
+    public void setListppl(List<String> listppl) {
         this.listppl = listppl;
     }
 }

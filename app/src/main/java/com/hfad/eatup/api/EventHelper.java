@@ -44,8 +44,7 @@ public class EventHelper {
     }
 
     public static Query getAllParticipatingEvent(Query query, String uid){
-        return query.whereEqualTo("uidCreator",uid);
-                //.whereArrayContains("listppl",uid);
+        return query.whereArrayContains("listppl",uid);
     }
 
     public static Query getIntNextEvent(Query query, int limit){
