@@ -21,6 +21,10 @@ import com.google.firebase.firestore.Query;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,7 +37,7 @@ import butterknife.ButterKnife;
  * Use the {@link EventListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EventListFragment extends Fragment {
+public class EventListFragment extends Fragment implements ListEventAdapter.Listener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,7 +51,7 @@ public class EventListFragment extends Fragment {
     private String city;
     private String address;
 
-    private FirestoreRecyclerAdapter adapter;
+    private ListEventAdapter adapter;
     @BindView(R.id.list_event_progress_bar)
     ProgressBar progressBar;
 
@@ -155,39 +159,15 @@ public class EventListFragment extends Fragment {
                 .setQuery(query, Event.class)
                 .build();
 
-        adapter = new FirestoreRecyclerAdapter<Event, ListEventHolder>(event){
 
-            @NonNull
-            @Override
-            public ListEventHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.list_event_item, viewGroup, false);
-
-                return new ListEventHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull Event model) {
-                progressBar.setVisibility(View.GONE);
-                holder.textTitle.setText(model.getTitle());
-                holder.cityText.setText(model.getCity());
-                holder.adressText.setText(model.getAddress());
-               /* title = model.getTitle();
-                address = model.getAddress();
-                city = model.getCity();
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Snackbar.make(eventListView, title+", "+address+" at "+city, Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                });*/
-            }
-        };
-
-        adapter.notifyDataSetChanged();
+        adapter = new ListEventAdapter(event,this);
         eventListView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onDataChanged() {
+        this.progressBar.setVisibility(View.GONE);
     }
 
 

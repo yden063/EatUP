@@ -20,19 +20,19 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                tools:text="Android Engineer" />
+
+            <TextView
                 android:id="@+id/item_adress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="20sp"
                 tools:text="Nur Rohman" />
-
-            <TextView
-                android:id="@+id/item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                tools:text="Android Engineer" />
 
             <TextView
                 android:id="@+id/item_city"

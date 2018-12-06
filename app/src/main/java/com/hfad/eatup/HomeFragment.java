@@ -47,7 +47,7 @@ import butterknife.OnClick;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ListEventAdapter.Listener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
     Button searchEventBtn;
 
     @BindView(R.id.list_next_event)
-    RecyclerView nextEventText;
+    RecyclerView nextEventView;
 
     @BindView(R.id.list_next_event_progress_bar)
     ProgressBar progressBar;
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-    private FirestoreRecyclerAdapter adapter;
+    private ListEventAdapter adapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
 
     private void init(){
         linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        nextEventText.setLayoutManager(linearLayoutManager);
+        nextEventView.setLayoutManager(linearLayoutManager);
     }
 
     @OnClick(R.id.createEventBtn)
@@ -182,6 +182,10 @@ public class HomeFragment extends Fragment {
         ((MainActivity)getActivity()).showListEventFragment();
     }
 
+    @Override
+    public void onDataChanged() {
+        this.progressBar.setVisibility(View.GONE);
+    }
 
 
     /**
@@ -203,32 +207,6 @@ public class HomeFragment extends Fragment {
 
 
         String uid = getCurrentUser().getUid();
-        /*EventHelper.getAllYourEvent(uid).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot snapshot,
-                                 FirebaseFirestoreException e) {
-
-                try {
-                    List<Event> events = snapshot.toObjects(Event.class);
-                    nextEventText.setText(nextEvtText(events));
-                    for (Event ev:events) {
-                        Log.i("querry event",ev.getTitle());
-                    }
-                    Log.i("Querry events",events.toString());
-                }catch(NullPointerException exception){
-
-                }
-
-            }
-        });
-
-        Query query = EventHelper.getAllYourEvent(uid);
-
-        FirestoreRecyclerOptions<Event> response = new FirestoreRecyclerOptions.Builder<Event>()
-                .setQuery(query, Event.class)
-                .build();
-
-        this.ListEventAdapter = new ListEventAdapter(response,Glide.with(this), this, uid);*/
 
         Query query = EventHelper.getYourNextEvent(uid);
 
@@ -236,28 +214,8 @@ public class HomeFragment extends Fragment {
                 .setQuery(query, Event.class)
                 .build();
 
-        adapter = new FirestoreRecyclerAdapter<Event, ListEventHolder>(event){
-
-            @NonNull
-            @Override
-            public ListEventHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.list_event_item, viewGroup, false);
-
-                return new ListEventHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull Event model) {
-                progressBar.setVisibility(View.GONE);
-                holder.textTitle.setText(model.getTitle());
-                holder.cityText.setText(model.getCity());
-                holder.adressText.setText(model.getAddress());
-            }
-        };
-
-        adapter.notifyDataSetChanged();
-        nextEventText.setAdapter(adapter);
+        this.adapter = new ListEventAdapter(event,this);
+        this.nextEventView.setAdapter(adapter);
 
     }
 

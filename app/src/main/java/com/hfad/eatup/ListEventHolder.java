@@ -23,6 +23,8 @@ public class ListEventHolder extends RecyclerView.ViewHolder {
     TextView cityText;
     @BindView(R.id.item_title)
     TextView textTitle;
+    @BindView(R.id.item_date)
+    TextView textDate;
 
 
     public ListEventHolder(View itemView) {
