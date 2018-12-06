@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.ListEventHolder;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.Model.User;
@@ -38,22 +39,23 @@ public class EventHelper {
         Event eventToCreate = new Event(title, address, city, date, maxppl, description, creator);
 
 
-
     return EventHelper.getEventsCollection()
             .document()
             .set(eventToCreate);
     }
 
-    public static Query getAllParticipatingEvent(Query query, String uid) {
-        return query.whereArrayContains("listppl", uid);
+    public static Task<Void> createEvent(String uuid, String title, String address, String city, Date date, int maxppl, String description, String creator) {
+        Event eventToCreate = new Event(uuid, title, address, city, date, maxppl, description, creator);
 
+
+        return EventHelper.getEventsCollection()
+                .document(uuid)
+                .set(eventToCreate);
     }
 
-    public static Task<DocumentSnapshot> getEvent (String uid){
-        return EventHelper.getEventsCollection().document(uid).get();
+    public static Query getAllParticipatingEvent(Query query, String uid){
+        return query.whereArrayContains("listppl",uid);
     }
-
-
 
     public static Query getIntNextEvent(Query query, int limit){
         return query.limit(limit);
@@ -72,6 +74,7 @@ public class EventHelper {
                 .orderBy("date");
     }
 
-
-
+    public static Task<DocumentSnapshot> getEvent (String uid){
+        return EventHelper.getEventsCollection().document(uid).get();
+    }
 }

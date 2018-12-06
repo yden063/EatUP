@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Event {
+    private String uuid;
     private String uidCreator;
     private String title;
     private String address;
@@ -15,6 +16,19 @@ public class Event {
     private List<String> listppl;
 
     public Event(){}
+
+    public Event(String uuid, String title, String address, String city, Date date, int maxppl, String description, String uidCreator) {
+        this.uuid = uuid;
+        this.title = title;
+        this.address = address;
+        this.city = city;
+        this.date = date;
+        this.maxppl = maxppl;
+        this.description = description;
+        this.uidCreator = uidCreator;
+        listppl = new ArrayList<>();
+        listppl.add(uidCreator);
+    }
 
     public Event( String title, String address, String city, Date date, int maxppl, String description, String uidCreator) {
         this.title = title;
@@ -106,4 +120,8 @@ public class Event {
     public void setListppl(List<String> listppl) {
         this.listppl = listppl;
     }
+
+    public String getUuid() { return uuid; }
+
+    public void setUuid(String uuid) { this.uuid = uuid; }
 }

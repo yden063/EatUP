@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -348,7 +349,9 @@ public class CreateEventFragment extends Fragment {
         String description = this.eventDescriptionText.getText().toString();
         int maxPeople = Integer.parseInt(this.eventMaxParticipants.getText().toString());
 
-        EventHelper.createEvent(title, address, city, dateFinale, maxPeople, description, this.currentUser.getUid());
+        String uuid = generateUuid();
+
+        EventHelper.createEvent(uuid, title, address, city, dateFinale, maxPeople, description, this.currentUser.getUid());
 
         getActivity().getSupportFragmentManager().beginTransaction().remove(this);
     }
@@ -360,5 +363,9 @@ public class CreateEventFragment extends Fragment {
                 currentUser = documentSnapshot.toObject(User.class);
             }
         });
+    }
+
+    private String generateUuid() {
+        return UUID.randomUUID().toString();
     }
 }

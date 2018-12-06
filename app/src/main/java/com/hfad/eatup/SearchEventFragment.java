@@ -142,24 +142,6 @@ public class SearchEventFragment extends Fragment {
         if(!date.isEmpty()){
             query = EventHelper.getEventByDate(query,date);
         }
-
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot snapshot,
-                                FirebaseFirestoreException e) {
-
-                try {
-                    events = snapshot.toObjects(Event.class);
-                    for (Event ev:events) {
-                        Log.i("Querry search event",ev.getTitle());
-                    }
-                    Log.i("Querry search events","EVENTS:"+events.toString());
-                }catch(NullPointerException exception){
-
-                }
-            }
-        });
-
     }
 
     /**

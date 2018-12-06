@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
@@ -156,10 +157,8 @@ public class EventListFragment extends Fragment implements ListEventAdapter.List
                 .setQuery(query, Event.class)
                 .build();
 
-
         adapter = new ListEventAdapter(event,this);
         eventListView.setAdapter(adapter);
-
     }
 
     @Override
