@@ -321,11 +321,24 @@ public class CreateEventFragment extends Fragment {
 
         String title = this.eventName.getText().toString();
         String dateString = this.eventDate.getText().toString();
+        String time = this.eventTime.getText().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateFinale = null;
 
+
         try {
             dateFinale = dateFormat.parse(dateString);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateFinale);
+
+            String[] timeSplit = time.split(":");
+            int hours = Integer.parseInt(timeSplit[0]);
+            int minutes = Integer.parseInt(timeSplit[1]);
+
+            calendar.add(Calendar.HOUR_OF_DAY, hours);
+            calendar.add(Calendar.MINUTE, minutes);
+
+            dateFinale = calendar.getTime(); // Update of the finale date
         } catch (ParseException e) {
             e.printStackTrace();
         }

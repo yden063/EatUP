@@ -11,6 +11,7 @@ import com.hfad.eatup.Model.Event;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventHolder> {
@@ -30,15 +31,16 @@ public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventH
     @Override
     protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull Event model) {
 
-        DateFormat dateFormat = new SimpleDateFormat("dd, MMM, HH:mm",Locale.CANADA);
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM HH:mm",Locale.CANADA);
         String address = "at "+model.getAddress();
         String city = "in "+model.getCity();
-        String date = "Starting "+dateFormat.format(model.getDate());
+        Date localDate = model.getDate();
+        String dateString = "Starting "+dateFormat.format(model.getDate());
         holder.textTitle.setText(model.getTitle());
 
         holder.adressText.setText(address);
         holder.cityText.setText(city);
-        holder.textDate.setText(date);
+        holder.textDate.setText(dateString);
     }
 
     @NonNull
