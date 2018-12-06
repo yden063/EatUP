@@ -28,7 +28,7 @@ public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventH
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull Event model) {
+    protected void onBindViewHolder(@NonNull ListEventHolder holder, int position, @NonNull final Event model) {
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMM HH:mm",Locale.CANADA);
         String address = "at "+model.getAddress();
@@ -40,6 +40,20 @@ public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventH
         holder.adressText.setText(address);
         holder.cityText.setText(city);
         holder.textDate.setText(dateString);
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(EventListFragment.instance != null){
+
+                    ((MainActivity)EventListFragment.instance.getActivity()).showDetailEventFragment(model.getUuid());
+                }
+            }
+        });
+
+
+
     }
 
     @NonNull

@@ -110,7 +110,18 @@ public class EventListFragment extends Fragment implements ListEventAdapter.List
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
 
+        instance = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        instance = this;
+    }
 
     @Override
     public void onStop() {

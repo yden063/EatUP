@@ -138,9 +138,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.startTransactionFragment(this.fragmentCreateEvent);
     }
 
-    public void showDetailEventFragment(){
+    public void showDetailEventFragment(String uidEvent){
 
-        if (this.detailEventFragment == null) this.detailEventFragment = DetailEventFragment.newInstance(null,null);
+        this.detailEventFragment = DetailEventFragment.newInstance(uidEvent,null);
         this.startTransactionFragment(this.detailEventFragment);
     }
 
@@ -210,5 +210,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
 
 }

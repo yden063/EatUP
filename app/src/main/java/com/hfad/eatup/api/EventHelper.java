@@ -1,29 +1,13 @@
 package com.hfad.eatup.api;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hfad.eatup.ListEventHolder;
 import com.hfad.eatup.Model.Event;
-import com.hfad.eatup.Model.User;
-import com.hfad.eatup.R;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class EventHelper {
     private static final String COLLECTION_NAME = "events";
@@ -74,7 +58,7 @@ public class EventHelper {
                 .orderBy("date");
     }
 
-    public static Task<DocumentSnapshot> getEvent (String uid){
-        return EventHelper.getEventsCollection().document(uid).get();
+    public static Task<QuerySnapshot> getEvent (){
+        return EventHelper.getEventsCollection().get();
     }
 }

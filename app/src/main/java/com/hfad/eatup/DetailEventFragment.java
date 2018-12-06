@@ -3,12 +3,28 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.hfad.eatup.Model.Event;
+import com.hfad.eatup.api.EventHelper;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 
 /**
@@ -24,6 +40,21 @@ public class DetailEventFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    @BindView(R.id.eventNameText)
+    TextView eventNameText;
+    @BindView(R.id.eventDateText)
+    TextView eventDateText;
+    @BindView(R.id.eventAddressText)
+    TextView eventAddressText;
+    @BindView(R.id.eventCityText)
+    TextView eventCityText;
+    @BindView(R.id.eventDescriptionText)
+    TextView eventDescriptionText;
+    @BindView(R.id.eventMaxParticipantsText)
+    TextView eventMaxParticipantsText;
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -69,7 +100,22 @@ public class DetailEventFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_event, container, false);
         ButterKnife.bind(this,view);
 
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
 
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+
+                    ((MainActivity)getActivity()).showListEventFragment();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        updateUIWhenCreating();
         return view;
     }
 
@@ -97,6 +143,80 @@ public class DetailEventFragment extends Fragment {
         mListener = null;
     }
 
+    private void updateUIWhenCreating() {
+
+        if(mParam1 != null){
+            EventHelper.getEvent().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            Log.i( "documents: ", document.getId());
+
+
+
+                            if((mParam1.equals(document.getId()))){
+                                Event event = document.toObject(Event.class);
+                                eventCityText.setText(event.getCity());
+                                eventAddressText.setText(event.getAddress());
+                                eventDescriptionText.setText(event.getDescription());
+                                eventDateText.setText(event.getDate().toString());
+//                                eventMaxParticipantsText.setText(event.getMaxppl());
+                                eventNameText.setText(event.getTitle());
+                                break;
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+
+                    /*.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            Log.i( "documents: ", document.getId());
+
+
+
+                            if((mParam1.equals(document.getId()))){
+                                Event event = document.toObject(Event.class);
+                                eventCityText.setText(event.getCity());
+                                eventAddressText.setText(event.getAddress());
+                                eventDescriptionText.setText(event.getDescription());
+                                eventDateText.setText(event.getDate().toString());
+//                                eventMaxParticipantsText.setText(event.getMaxppl());
+                                eventNameText.setText(event.getTitle());
+                                break;
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+                    /*.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Event event = documentSnapshot.toObject(Event.class);
+                    eventCityText.setText(event.getCity());
+                    eventAddressText.setText(event.getAddress());
+                    eventDescriptionText.setText(event.getDescription());
+                    eventDateText.setText(event.getDate().toString());
+                    eventMaxParticipantsText.setText(event.getMaxppl());
+                    eventNameText.setText(event.getTitle());
+                }
+            });*/
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -111,4 +231,6 @@ public class DetailEventFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }
