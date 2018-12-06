@@ -35,13 +35,13 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/eventCityText"
+                android:id="@+id/eventCityTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="city name" />
+                android:inputType="textCapWords"
+                android:hint="City name" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,17 +58,17 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/eventDateText"
+                android:id="@+id/eventDateTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="date" />
+                android:inputType="date"
+                android:hint="YYYY-MM-DD" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/eventSearchBtn"
+            android:id="@+id/searchBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Search" />

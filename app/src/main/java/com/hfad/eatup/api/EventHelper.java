@@ -50,4 +50,18 @@ public class EventHelper {
                 .limit(1);
     }
 
+
+    public static Query getEventByCity(Query query, String city){
+        return query.whereEqualTo("city",city);
+    }
+
+    public static Query getEventByDate(Query query, String date){
+        return query.whereEqualTo("date",date);
+    }
+
+    public static Query querryBuilder(){
+        return EventHelper.getEventsCollection()
+                .orderBy("date");
+    }
+
 }

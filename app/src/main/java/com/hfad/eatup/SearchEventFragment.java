@@ -4,9 +4,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.hfad.eatup.Model.Event;
+import com.hfad.eatup.api.EventHelper;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -28,6 +44,15 @@ public class SearchEventFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    @BindView(R.id.searchBtn)
+    Button searchBtn;
+
+    @BindView(R.id.eventDateTxt)
+    EditText eventDateTxt;
+
+    @BindView(R.id.eventCityTxt)
+    EditText eventCityTxt;
 
     public SearchEventFragment() {
         // Required empty public constructor
@@ -64,7 +89,11 @@ public class SearchEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_event, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_search_event, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -89,6 +118,40 @@ public class SearchEventFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @OnClick(R.id.searchBtn)
+    public void onClickSearchBtn(){
+        String city = this.eventCityTxt.getText().toString();
+        String date = this.eventDateTxt.getText().toString();
+        Query query = EventHelper.querryBuilder();
+        Log.i("Search with param:","City: "+city+" Date: "+date);
+
+        if(!city.isEmpty()){
+            query = EventHelper.getEventByCity(query,city);
+        }
+
+        if(!date.isEmpty()){
+            query = EventHelper.getEventByDate(query,date);
+        }
+
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot snapshot,
+                                FirebaseFirestoreException e) {
+
+                try {
+                    List<Event> events = snapshot.toObjects(Event.class);
+                    for (Event ev:events) {
+                        Log.i("Querry search event",ev.getTitle());
+                    }
+                    Log.i("Querry search events","EVENTS:"+events.toString());
+                }catch(NullPointerException exception){
+
+                }
+            }
+        });
+
     }
 
     /**
