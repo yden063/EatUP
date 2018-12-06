@@ -333,8 +333,7 @@ public class CreateEventFragment extends Fragment {
         String address = this.eventAddressText.getText().toString();
         String city = this.eventCityText.getText().toString();
         String description = this.eventDescriptionText.getText().toString();
-        int maxPeople = Integer.getInteger(this.eventMaxParticipants.getText().toString());
-
+        int maxPeople = Integer.parseInt(this.eventMaxParticipants.getText().toString());
 
         EventHelper.createEvent(title, address, city, dateFinale, maxPeople, description, this.currentUser.getUid());
 
