@@ -333,11 +333,12 @@ public class CreateEventFragment extends Fragment {
         String address = this.eventAddressText.getText().toString();
         String city = this.eventCityText.getText().toString();
         String description = this.eventDescriptionText.getText().toString();
-        int maxPeople = 2; // à changer
+        int maxPeople = Integer.getInteger(this.eventMaxParticipants.getText().toString());
 
 
         EventHelper.createEvent(title, address, city, dateFinale, maxPeople, description, this.currentUser.getUid());
 
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this);
     }
 
     private void getCurrentUserFromFirestore(){
