@@ -146,13 +146,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void showSearchEventFragment(){
 
-        if (this.fragmentSearchEvent == null) this.fragmentSearchEvent = SearchEventFragment.newInstance(null,null);
+        this.fragmentSearchEvent = SearchEventFragment.newInstance(null,null);
         this.startTransactionFragment(this.fragmentSearchEvent);
     }
 
     public void showListEventFragment(){
 
-        if (this.fragmentListEvent == null) this.fragmentListEvent = EventListFragment.newInstance(null,null);
+        this.fragmentListEvent = EventListFragment.newInstance(null,null);
         this.startTransactionFragment(this.fragmentListEvent);
     }
 

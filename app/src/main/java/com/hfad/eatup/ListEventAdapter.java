@@ -49,6 +49,10 @@ public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventH
 
                     ((MainActivity)EventListFragment.instance.getActivity()).showDetailEventFragment(model.getUuid());
                 }
+                else if (SearchEventFragment.instance != null){
+
+                    ((MainActivity)SearchEventFragment.instance.getActivity()).showDetailEventFragment(model.getUuid());
+                }
             }
         });
 

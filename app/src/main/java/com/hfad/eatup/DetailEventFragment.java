@@ -146,64 +146,7 @@ public class DetailEventFragment extends Fragment {
     private void updateUIWhenCreating() {
 
         if(mParam1 != null){
-            EventHelper.getEvent().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-
-                            Log.i( "documents: ", document.getId());
-
-
-
-                            if((mParam1.equals(document.getId()))){
-                                Event event = document.toObject(Event.class);
-                                eventCityText.setText(event.getCity());
-                                eventAddressText.setText(event.getAddress());
-                                eventDescriptionText.setText(event.getDescription());
-                                eventDateText.setText(event.getDate().toString());
-//                                eventMaxParticipantsText.setText(event.getMaxppl());
-                                eventNameText.setText(event.getTitle());
-                                break;
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                }
-            });
-
-
-                    /*.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-
-                            Log.i( "documents: ", document.getId());
-
-
-
-                            if((mParam1.equals(document.getId()))){
-                                Event event = document.toObject(Event.class);
-                                eventCityText.setText(event.getCity());
-                                eventAddressText.setText(event.getAddress());
-                                eventDescriptionText.setText(event.getDescription());
-                                eventDateText.setText(event.getDate().toString());
-//                                eventMaxParticipantsText.setText(event.getMaxppl());
-                                eventNameText.setText(event.getTitle());
-                                break;
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                }
-            });
-
-                    /*.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            EventHelper.getEvent(mParam1).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     Event event = documentSnapshot.toObject(Event.class);
@@ -211,10 +154,12 @@ public class DetailEventFragment extends Fragment {
                     eventAddressText.setText(event.getAddress());
                     eventDescriptionText.setText(event.getDescription());
                     eventDateText.setText(event.getDate().toString());
-                    eventMaxParticipantsText.setText(event.getMaxppl());
+                    eventMaxParticipantsText.setText(String.valueOf(event.getMaxppl()));
                     eventNameText.setText(event.getTitle());
                 }
-            });*/
+            });
+
+
         }
     }
     /**

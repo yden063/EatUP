@@ -2,9 +2,9 @@ package com.hfad.eatup.api;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.Model.Event;
 
 import java.util.Date;
@@ -60,7 +60,7 @@ public class EventHelper {
                 .orderBy("date");
     }
 
-    public static Task<QuerySnapshot> getEvent (){
-        return EventHelper.getEventsCollection().get();
+    public static Task<DocumentSnapshot> getEvent (String uid){
+        return EventHelper.getEventsCollection().document(uid).get();
     }
 }
