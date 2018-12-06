@@ -49,6 +49,8 @@ public class EventHelper {
         return query.whereEqualTo("city",city);
     }
 
+
+
     public static Query getEventByDate(Query query, String date){
         return query.whereEqualTo("date",date);
     }

@@ -4,14 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -35,7 +40,7 @@ import butterknife.OnClick;
  * Use the {@link SearchEventFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchEventFragment extends Fragment {
+public class SearchEventFragment extends Fragment implements ListEventAdapter.Listener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,7 +52,7 @@ public class SearchEventFragment extends Fragment {
     private List<Event> events = new ArrayList<Event>();
 
     private OnFragmentInteractionListener mListener;
-    private FirestoreRecyclerAdapter adapter;
+    private ListEventAdapter adapter;
 
     @BindView(R.id.searchBtn)
     Button searchBtn;
@@ -57,6 +62,15 @@ public class SearchEventFragment extends Fragment {
 
     @BindView(R.id.eventCityTxt)
     EditText eventCityTxt;
+
+    @BindView(R.id.eventListResult)
+    RecyclerView eventListResult;
+    LinearLayoutManager linearLayoutManager;
+
+    @BindView(R.id.eventProgressBar)
+    ProgressBar progressBar;
+
+
 
     public SearchEventFragment() {
         // Required empty public constructor
@@ -97,6 +111,10 @@ public class SearchEventFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_event, container, false);
         ButterKnife.bind(this, view);
 
+        init();
+        Query query = EventHelper.querryBuilder();
+        getEventList(query);
+
         return view;
     }
 
@@ -130,8 +148,10 @@ public class SearchEventFragment extends Fragment {
     public void onClickSearchBtn(){
         String city = this.eventCityTxt.getText().toString();
         String date = this.eventDateTxt.getText().toString();
+
         Query query = EventHelper.querryBuilder();
         Log.i("Search with param:","City: "+city+" Date: "+date);
+
         events.clear();
 
 
@@ -142,6 +162,16 @@ public class SearchEventFragment extends Fragment {
         if(!date.isEmpty()){
             query = EventHelper.getEventByDate(query,date);
         }
+
+        // Update the list view.
+        getEventList(query);
+
+
+    }
+
+    @Override
+    public void onDataChanged() {
+        this.progressBar.setVisibility(View.GONE);
     }
 
     /**
@@ -157,5 +187,34 @@ public class SearchEventFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void getEventList(Query query) {
+
+        FirestoreRecyclerOptions<Event> event = new FirestoreRecyclerOptions.Builder<Event>()
+                .setQuery(query, Event.class)
+                .build();
+
+        adapter = new ListEventAdapter(event,this);
+        eventListResult.setAdapter(adapter);
+    }
+
+    private void init(){
+        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        eventListResult.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        adapter.stopListening();
     }
 }
