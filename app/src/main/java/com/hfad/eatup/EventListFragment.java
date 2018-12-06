@@ -44,6 +44,8 @@ public class EventListFragment extends Fragment implements ListEventAdapter.List
     private String city;
     private String address;
 
+    public static EventListFragment instance = null;
+
     private ListEventAdapter adapter;
     @BindView(R.id.list_event_progress_bar)
     ProgressBar progressBar;
@@ -106,6 +108,8 @@ public class EventListFragment extends Fragment implements ListEventAdapter.List
         adapter.startListening();
 
     }
+
+
 
     @Override
     public void onStop() {

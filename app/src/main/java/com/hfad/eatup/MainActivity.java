@@ -31,6 +31,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private Fragment fragmentSearchEvent;
     private Fragment fragmentListEvent;
     private Fragment fragmentProfil;
+    private Fragment detailEventFragment;
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_PROFIL = 1;
     private DrawerLayout drawer;
@@ -137,6 +138,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.startTransactionFragment(this.fragmentCreateEvent);
     }
 
+    public void showDetailEventFragment(){
+
+        if (this.detailEventFragment == null) this.detailEventFragment = DetailEventFragment.newInstance(null,null);
+        this.startTransactionFragment(this.detailEventFragment);
+    }
+
     public void showSearchEventFragment(){
 
         if (this.fragmentSearchEvent == null) this.fragmentSearchEvent = SearchEventFragment.newInstance(null,null);
@@ -196,6 +203,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         }
     }
+
 
     // 3 - Configure NavigationView
     private void configureNavigationView(){

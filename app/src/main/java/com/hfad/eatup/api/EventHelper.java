@@ -11,6 +11,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.hfad.eatup.ListEventHolder;
@@ -43,9 +44,16 @@ public class EventHelper {
             .set(eventToCreate);
     }
 
-    public static Query getAllParticipatingEvent(Query query, String uid){
-        return query.whereArrayContains("listppl",uid);
+    public static Query getAllParticipatingEvent(Query query, String uid) {
+        return query.whereArrayContains("listppl", uid);
+
     }
+
+    public static Task<DocumentSnapshot> getEvent (String uid){
+        return EventHelper.getEventsCollection().document(uid).get();
+    }
+
+
 
     public static Query getIntNextEvent(Query query, int limit){
         return query.limit(limit);

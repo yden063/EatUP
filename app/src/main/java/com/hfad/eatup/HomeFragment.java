@@ -3,6 +3,7 @@ package com.hfad.eatup;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -109,8 +110,24 @@ public class HomeFragment extends Fragment implements ListEventAdapter.Listener 
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        nextEventView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(),nextEventView,new RecyclerItemClickListener.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view, int position) {
+                ((MainActivity)getActivity()).showListEventFragment();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
 
 
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -165,11 +182,6 @@ public class HomeFragment extends Fragment implements ListEventAdapter.Listener 
     @OnClick(R.id.searchEventBtn)
     public void onClickSearchEvent(){
         ((MainActivity)getActivity()).showSearchEventFragment();
-    }
-
-    @OnClick(R.id.click_next_event)
-    public void onClickNextEvent(){
-        ((MainActivity)getActivity()).showListEventFragment();
     }
 
     @Override

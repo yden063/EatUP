@@ -24,7 +24,6 @@ public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventH
 
     public ListEventAdapter(@NonNull FirestoreRecyclerOptions<Event> options, Listener callback) {
         super(options);
-
         this.callback =callback;
     }
 
@@ -57,4 +56,5 @@ public class ListEventAdapter extends FirestoreRecyclerAdapter<Event, ListEventH
         super.onDataChanged();
         this.callback.onDataChanged();
     }
+
 }
