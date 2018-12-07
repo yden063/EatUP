@@ -10,19 +10,26 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hfad.eatup.Model.Event;
 import com.hfad.eatup.api.EventHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
@@ -41,6 +48,11 @@ public class DetailEventFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Boolean isCreator = false;
+    private Boolean isParticipant = false;
+    private String uidEvent;
+    private List<String>  list= new ArrayList<>();
+
     @BindView(R.id.eventNameText)
     TextView eventNameText;
     @BindView(R.id.eventDateText)
@@ -53,6 +65,8 @@ public class DetailEventFragment extends Fragment {
     TextView eventDescriptionText;
     @BindView(R.id.eventMaxParticipantsText)
     TextView eventMaxParticipantsText;
+    @BindView(R.id.eventCancelOrDeleteBtn)
+    Button eventCancelOrDeleteBtn;
 
 
 
@@ -150,6 +164,29 @@ public class DetailEventFragment extends Fragment {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     Event event = documentSnapshot.toObject(Event.class);
+
+                    if (event.getUidCreator().equals(getCurrentUser().getUid())){
+
+                        eventCancelOrDeleteBtn.setText("Cancel Event");
+                        isCreator = true;
+                        uidEvent = event.getUuid();
+
+
+                    }
+                    else if(event.getListppl().indexOf(getCurrentUser().getUid()) == -1){
+                        eventCancelOrDeleteBtn.setText("Subscribe Event");
+                        list = event.getListppl();
+                        uidEvent = event.getUuid();
+                        list.add(getCurrentUser().getUid());
+                    }
+                    else{
+
+                        eventCancelOrDeleteBtn.setText("Unsubscribe");
+                        isParticipant = true;
+                        uidEvent = event.getUuid();
+                        list = event.getListppl();
+                        list.remove(list.indexOf(getCurrentUser().getUid()));
+                    }
                     eventCityText.setText(event.getCity());
                     eventAddressText.setText(event.getAddress());
                     eventDescriptionText.setText(event.getDescription());
@@ -162,6 +199,34 @@ public class DetailEventFragment extends Fragment {
 
         }
     }
+
+    private void subscribeEvent (){
+        EventHelper.updateList(list,uidEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                eventCancelOrDeleteBtn.setClickable(false);
+            }
+        });
+    }
+
+    private void unSubscribeEvent (){
+        EventHelper.updateList(list,uidEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                eventCancelOrDeleteBtn.setClickable(false);
+            }
+        });
+    }
+
+    private void deleteEvent (){
+        EventHelper.deleteEvent(uidEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                eventCancelOrDeleteBtn.setClickable(false);
+            }
+        });
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -176,6 +241,19 @@ public class DetailEventFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @OnClick(R.id.eventCancelOrDeleteBtn)
+    public void onCLickButton(){
+
+        if(isCreator)
+            deleteEvent();
+        else if(isParticipant)
+            unSubscribeEvent();
+        else
+            subscribeEvent();
+    }
+
+    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
 
 
 }

@@ -8,6 +8,7 @@ import com.google.firebase.firestore.Query;
 import com.hfad.eatup.Model.Event;
 
 import java.util.Date;
+import java.util.List;
 
 public class EventHelper {
     private static final String COLLECTION_NAME = "events";
@@ -62,5 +63,13 @@ public class EventHelper {
 
     public static Task<DocumentSnapshot> getEvent (String uid){
         return EventHelper.getEventsCollection().document(uid).get();
+    }
+
+    public static Task<Void> updateList(List<String> list, String uid) {
+        return EventHelper.getEventsCollection().document(uid).update("listppl", list);
+    }
+
+    public static Task<Void> deleteEvent(String uid) {
+        return EventHelper.getEventsCollection().document(uid).delete();
     }
 }
