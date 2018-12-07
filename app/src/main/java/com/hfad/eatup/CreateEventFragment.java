@@ -130,7 +130,7 @@ public class CreateEventFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_create_event, container, false);
         ButterKnife.bind(this, view);
-
+        getActivity().setTitle("New Event");
         this.getCurrentUserFromFirestore();
         eventCreateBtn.setEnabled(false);
         enableCreateBtn = false;

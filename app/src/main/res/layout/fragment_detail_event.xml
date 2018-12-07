@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#746c6c"
     tools:context=".DetailEventFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,14 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_weight="0.3"
-            android:text="Event details"
-            android:textAlignment="center"
-            android:textSize="24sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +31,7 @@
                     style="@style/labels"
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
+                    android:textColor="#fff"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Event name" />
@@ -47,6 +41,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Date" />
 
@@ -54,6 +49,7 @@
                     style="@style/labels"
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
+                    android:textColor="#fff"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Starting at" />
@@ -63,6 +59,7 @@
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Address" />
 
@@ -71,6 +68,7 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="City" />
 
@@ -79,6 +77,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Description" />
 
@@ -87,6 +86,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Max participants" />
 
@@ -103,6 +103,7 @@
                     android:id="@+id/eventNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Event name" />
 
@@ -111,6 +112,7 @@
                     android:id="@+id/eventDateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Date" />
 
@@ -119,6 +121,7 @@
                     android:id="@+id/eventStartingAtText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Starting at" />
 
@@ -127,6 +130,7 @@
                     android:id="@+id/eventAddressText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Address" />
 
@@ -135,6 +139,7 @@
                     android:id="@+id/eventCityText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="City" />
 
@@ -143,6 +148,7 @@
                     android:id="@+id/eventDescriptionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Description" />
 
@@ -151,6 +157,7 @@
                     android:id="@+id/eventMaxParticipantsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:layout_weight="1"
                     android:text="Max participants" />
 

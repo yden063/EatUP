@@ -104,6 +104,8 @@ public class HomeFragment extends Fragment implements ListEventAdapter.Listener 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
+        getActivity().setTitle("Home");
+
         init();
         getYourNextEvent();
 

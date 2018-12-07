@@ -94,7 +94,7 @@ public class EventListFragment extends Fragment implements ListEventAdapter.List
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_event_list, container, false);
-
+        getActivity().setTitle("Event list");
         ButterKnife.bind(this,view);
         init();
 

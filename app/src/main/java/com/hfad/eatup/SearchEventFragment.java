@@ -111,7 +111,7 @@ public class SearchEventFragment extends Fragment implements ListEventAdapter.Li
 
         View view = inflater.inflate(R.layout.fragment_search_event, container, false);
         ButterKnife.bind(this, view);
-
+        getActivity().setTitle("Search Event");
         Query query = EventHelper.querryBuilder();
         getEventList(query);
 

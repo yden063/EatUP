@@ -113,7 +113,7 @@ public class DetailEventFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_event, container, false);
         ButterKnife.bind(this,view);
-
+        getActivity().setTitle("Event detail");
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {

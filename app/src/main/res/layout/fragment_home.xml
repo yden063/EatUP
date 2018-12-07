@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/nourriture"
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -20,8 +21,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp"
-                android:background="#ffff">
+                android:padding="16dp">
 
                 <ProgressBar
                     android:id="@+id/list_next_event_progress_bar"
@@ -41,6 +41,7 @@
 
         <Button
             android:id="@+id/createEventBtn"
+            style="@style/FirebaseUI.Button.AccountChooser.GitHubButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -49,6 +50,7 @@
 
         <Button
             android:id="@+id/searchEventBtn"
+            style="@style/FirebaseUI.Button.AccountChooser.GitHubButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
