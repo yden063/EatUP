@@ -51,7 +51,6 @@ public class SearchEventFragment extends Fragment implements ListEventAdapter.Li
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private List<Event> events = new ArrayList<Event>();
 
     private OnFragmentInteractionListener mListener;
     private ListEventAdapter adapter;
@@ -113,7 +112,6 @@ public class SearchEventFragment extends Fragment implements ListEventAdapter.Li
         View view = inflater.inflate(R.layout.fragment_search_event, container, false);
         ButterKnife.bind(this, view);
 
-        init();
         Query query = EventHelper.querryBuilder();
         getEventList(query);
 
@@ -154,9 +152,6 @@ public class SearchEventFragment extends Fragment implements ListEventAdapter.Li
         Query query = EventHelper.querryBuilder();
         Log.i("Search with param:","City: "+city+" Date: "+date);
 
-        events.clear();
-
-
         if(!city.isEmpty()){
             query = EventHelper.getEventByCity(query,city);
         }
@@ -166,7 +161,7 @@ public class SearchEventFragment extends Fragment implements ListEventAdapter.Li
         }
 
         // Update the list view.
-        getEventList(query);
+        this.getEventList(query);
 
 
     }
@@ -193,11 +188,19 @@ public class SearchEventFragment extends Fragment implements ListEventAdapter.Li
 
     private void getEventList(Query query) {
 
+        init();
+
+
+
         FirestoreRecyclerOptions<Event> event = new FirestoreRecyclerOptions.Builder<Event>()
                 .setQuery(query, Event.class)
                 .build();
 
         adapter = new ListEventAdapter(event,this);
+
+        adapter.stopListening();
+        adapter.startListening();
+
         eventListResult.setAdapter(adapter);
     }
 
